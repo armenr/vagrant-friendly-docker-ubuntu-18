@@ -1,3 +1,4 @@
+# Revisit build stages & overall thinking: https://github.com/dholth/vagrant-docker/blob/master/Dockerfile
 FROM ubuntu:18.04
 EXPOSE 22 2200
 
