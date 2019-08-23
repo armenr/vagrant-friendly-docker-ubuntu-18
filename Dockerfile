@@ -40,7 +40,7 @@ RUN echo "export VISIBLE=now" >> /etc/profile
 # Breadcrumb: https://forums.docker.com/t/systemctl-status-is-not-working-in-my-docker-container/9075/14
 ## This allows for Ansible's "service" & "systemd" modules to work out of the box
 ## Systemd cleanup base image
-RUN (cd /lib/systemd/system/sysinit.target.wants && for i in *; do [ $i == systemd-tmpfiles-setup.service ] || rm -vf $i; done) && \
+RUN (cd /lib/systemd/system/sysinit.target.wants && for i in *; do [ $i = systemd-tmpfiles-setup.service ] || rm -vf $i; done) && \
   rm -vf /lib/systemd/system/multi-user.target.wants/* && \
   rm -vf /etc/systemd/system/*.wants/* && \
   rm -vf /lib/systemd/system/local-fs.target.wants/* && \
