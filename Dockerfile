@@ -29,6 +29,14 @@ RUN (cd /lib/systemd/system/sysinit.target.wants && for i in *; do [ $i = system
   rm -vf /lib/systemd/system/anaconda.target.wants/* \
   rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
+## We don't want IPV6 - YMMV
+RUN echo "Disabling IPv6" \
+  && echo "net.ipv6.conf.all.disable_ipv6 = 1" >> /etc/sysctl.conf \
+  && echo "net.ipv6.conf.default.disable_ipv6" = 1 >> /etc/sysctl.conf \
+  && echo "net.ipv6.conf.lo.disable_ipv6 = 1" >> /etc/sysctl.conf \
+  && echo "net.ipv6.conf.eth0.disable_ipv6 = 1" >> /etc/sysctl.conf \
+  && sysctl -p
+
 EXPOSE 22
 
 FROM ubuntu-with-ssh AS vagrant-ubuntu-base
@@ -57,7 +65,6 @@ RUN cd ~vagrant \
   && chmod 0600 .ssh/authorized_keys
 
 ## Thes are all the services we'd target or expose
-
 # EXPOSE 22 2200
 # EXPOSE 80 2000
 # EXPOSE 3000 3000
@@ -65,6 +72,5 @@ RUN cd ~vagrant \
 # EXPOSE 5000 5000
 # EXPOSE 7777 7777
 # EXPOSE 8080 8080
-
 
 CMD ["/usr/sbin/sshd", "-D"]
