@@ -64,13 +64,4 @@ RUN cd ~vagrant \
   && chmod 0700 .ssh \
   && chmod 0600 .ssh/authorized_keys
 
-## Thes are all the services we'd target or expose
-# EXPOSE 22 2200
-# EXPOSE 80 2000
-# EXPOSE 3000 3000
-# EXPOSE 4000 4000
-# EXPOSE 5000 5000
-# EXPOSE 7777 7777
-# EXPOSE 8080 8080
-
 CMD ["/usr/sbin/sshd", "-D"]
