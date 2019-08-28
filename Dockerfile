@@ -4,7 +4,7 @@ FROM ubuntu:18.04 AS ubuntu-with-ssh
 # Update image and install packages
 RUN DEBIAN_FRONTEND=noninteractive \
   && apt-get update \
-  && apt-get install -y aptitude python sudo openssh-server \
+  && apt-get install -y aptitude python sudo openssh-server telnet iputils-ping net-tools netcat htop nano \
   && apt-get clean
 
 # Do SSH things
