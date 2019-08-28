@@ -1,0 +1,16 @@
+---
+- hosts: all
+  become: true
+
+  pre_tasks:
+    - debug:
+        msg: Environment virtualization is ==> {{ ansible_virtualization_type }}
+
+    - debug:
+        msg: This set of tasks will install a sample package to your Ubuntu host
+
+  tasks:
+    - name: Update repositories cache and install "htop" package
+      apt:
+        name: htop
+        update_cache: yes

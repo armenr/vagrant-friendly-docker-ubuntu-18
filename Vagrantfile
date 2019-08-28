@@ -22,24 +22,46 @@ Vagrant.configure("2") do |config|
     # config.hostmanager.manage_guest      = true
     # config.vm.provision :hostmanager
 
+    # Defines a base provisioner that will run on ALL vms
+		config.vm.provision :ansible do |ansible|
+			ansible.playbook      = "test_playbook.yml"
+			ansible.verbose = 'vv'
+		end
+
 ## Begin defining vms
 
     ## Sample docker1
     config.vm.define :machine1 do |machine1|
-        machine1.vm.hostname = "machine1"
-        machine1.vm.provider "docker" do |d, override|
-          d.name = "machine1"
-          d.ports = [ "5044:5044" ]
-          d.link "machine1:machine1"
-        end
+      machine1.vm.hostname = "machine1"
+
+      #Define machine-specific Docker things
+      machine1.vm.provider "docker" do |d, override|
+        d.name = "machine1"
+        d.ports = [ "5044:5044" ]
+        d.link "machine1:machine1"
+      end
+
+      # Defines a provisioner to run only on machine1
+      config.vm.provision :ansible do |ansible|
+        ansible.playbook      = "test_playbook.yml"
+        ansible.verbose       = 'vv'
+      end
     end
 
     ## Sample docker2
     config.vm.define :machine2 do |machine2|
       machine2.vm.hostname = "machine2"
+
+      #Define machine-specific Docker things
       machine2.vm.provider "docker" do |d, override|
         d.name = "machine2"
         d.ports = [ "5000:5000" ]
+      end
+
+      # Defines a provisioner to run only on machine2
+      config.vm.provision :ansible do |ansible|
+        ansible.playbook      = "test_playbook.yml"
+        ansible.verbose       = 'vv'
       end
     end
 
